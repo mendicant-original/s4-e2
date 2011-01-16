@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/traffic_sim"
+
+map = TrafficSim::Map.new(ARGV[0])
+
+engine = TrafficSim::Engine.new(map,
+  "a" => TrafficSim::Drivers::Sample.new,
+  "b" => TrafficSim::Drivers::Sample.new,
+  "c" => TrafficSim::Drivers::Sample.new)
+
+puts engine.map
+
+engine.run do |map|
+  puts map
+end

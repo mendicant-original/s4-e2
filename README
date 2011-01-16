@@ -1,0 +1,61 @@
+-- RMU SESSION 4 EXERCISE 2
+
+If in doubt about how to submit, see SUBMISSION_GUIDELINES file.
+
+For this session's challenge exercise, we will be collaboratively working on a
+strange little space travel simulator. The initial code for the simulator hints
+at some rules for the system, but the whole class will work together to figure
+out what the real objectives are.
+
+The purpose of this exercise is to work on a messy, difficult problem together 
+and have some good discussions along the way.  You are *not* required to come 
+up with a perfect solution, but you are expected to fully participate and
+produce working code if you choose to submit this exercise.
+
+The goals are pretty open ended, but please follow the guidelines listed
+below.
+
+== GUIDELINES
+
+* Your primary goal is to create at least one Driver object.  These are the
+  objects that tell Vehicles how to move.  Different vehicles on the maps can
+  have different drivers, so your goal is to provide a driver which takes that
+  into account and doesn't assume that all drivers have the same sort of brain.
+
+* As a group, it's your goal to determine what the object of the game is.  One
+  possibility is that the goal would be to make it so that all the vehicles make
+  it to their home docks without crashing into anything (this is the only
+  condition that presently allows Engine#run to exit without error).  But you
+  can also come up with rules of your own, as long as the necessary features
+  get built and the group agrees on the rules.
+
+* This system has some bugs, missing features, and confusing parts to it.  It
+  also has very little test coverage.  You can submit patches to fix issues or
+  add tests, and I will then pull them upstream.
+
+* It is strongly recommended that you all work together to read and study the
+  code.  Make use of the notes section on this assignment's page in
+  university-web to collect information as the course goes on.
+
+* If there are any questions or disputes about requirements or suggested changes 
+  to the system, try to reach consensus first.  If needed, I will make any final
+  design decisions.
+
+* I will base acceptance for this assignment on both overall participation and
+  your Driver object.  The less you participate in helping the whole group
+  through both discussion and patches to the simulator itself, the more I will 
+  expect your Driver object to be well polished.
+
+* Please use Ruby 1.9.2 with no external dependencies for this project.  Using
+  anything in the standard library is fine.
+
+== QUESTIONS?
+
+Hit up the mailing list or IRC. RMU exercises are left deliberately open ended,
+and often benefit from some discussion before, during, and after you work on
+them.
+
+If you have little experience with web programming, please let me know and I'll
+collect some resources for you to get you up to speed. Not a ton of knowledge
+is needed to work through this exercise.
+
