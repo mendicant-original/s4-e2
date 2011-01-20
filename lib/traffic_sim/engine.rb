@@ -27,7 +27,7 @@ module TrafficSim
 
         case instruction
         when :increase_speed
-          v.speed_up 
+          v.speed_up
         when :decrease_speed
           v.slow_down
         when :face_north
@@ -57,7 +57,7 @@ module TrafficSim
 
       case map[*dest]
       when Dock
-        raise DeathByLaser unless map[dest].owned_by?(v.driver_name)
+        raise DeathByLaser unless map[*dest].owned_by?(v.driver_name)
         map.vehicles.delete(v)
       when Vehicle
         raise VehicleCollision
