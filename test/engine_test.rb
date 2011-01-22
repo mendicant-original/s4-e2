@@ -20,17 +20,14 @@ describe TrafficSim::Engine do
     end
   end
 
-  it "should not kill vehicle by laser when it tries to go to its own dock" do
+  it "should actually let vehicle dock when it tries entering its own" do
     map = TrafficSim::Map.new("#{TRAFFIC_SIM_BASEDIR}/data/maps/about_to_dock.txt")
 
     vehicle_strategies = { "a" => TrafficSim::Drivers::Sample.new }
 
     engine = TrafficSim::Engine.new(map, vehicle_strategies)
-
-    # In this case, the vehicle won't stop and get killed on the dock,
-    # it will run up until it hits an asteroid
-    assert_raises TrafficSim::Engine::AsteroidCollision do
-      engine.run {}
-    end
+    engine.step
+    engine.step
+    assert engine.map.vehicles.empty?
   end
 end
