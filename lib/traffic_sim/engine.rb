@@ -58,7 +58,7 @@ module TrafficSim
       case map[*dest]
       when Dock
         raise DeathByLaser unless map[*dest].owned_by?(v.driver_name)
-        map.vehicles.delete(v)
+        map.vehicles.delete(v.driver_name)
       when Vehicle
         raise VehicleCollision
       when nil
