@@ -3,12 +3,19 @@ require_relative "test_helper"
 describe TrafficSim::Engine do
 
   before(:each) do
+    # an "inline" driver which only goes forward
+    @forward_driver = Object.new
+    def @forward_driver.step(map, driver_name)
+      vehicle = map.vehicles[driver_name]
+      return :increase_speed if vehicle.speed == 0
+      :launch
+    end
   end
 
   it "should kill vehicle by laser when it tries to go to another's dock" do
     map = TrafficSim::Map.new("#{TRAFFIC_SIM_BASEDIR}/data/maps/about_to_die.txt")
 
-    vehicle_strategies = { "a" => TrafficSim::Drivers::Sample.new }
+    vehicle_strategies = { "a" => @forward_driver }
 
     engine = TrafficSim::Engine.new(map, vehicle_strategies)
 
@@ -23,7 +30,7 @@ describe TrafficSim::Engine do
   it "should actually let vehicle dock when it tries entering its own" do
     map = TrafficSim::Map.new("#{TRAFFIC_SIM_BASEDIR}/data/maps/about_to_dock.txt")
 
-    vehicle_strategies = { "a" => TrafficSim::Drivers::Sample.new }
+    vehicle_strategies = { "a" => @forward_driver }
 
     engine = TrafficSim::Engine.new(map, vehicle_strategies)
     engine.step
@@ -31,3 +38,4 @@ describe TrafficSim::Engine do
     assert engine.map.vehicles.empty?
   end
 end
+
