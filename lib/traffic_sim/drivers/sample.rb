@@ -2,7 +2,7 @@ module TrafficSim
   module Drivers
     class Sample
       def initialize
-        @movements = [:increase_speed, :launch].cycle
+        @movements = [:increase_speed, :move].cycle
       end
 
       def step(map, driver_name)
@@ -11,3 +11,4 @@ module TrafficSim
     end
   end
 end
+

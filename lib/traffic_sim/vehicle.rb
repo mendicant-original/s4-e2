@@ -19,11 +19,11 @@ module TrafficSim
     attr_reader :speed, :facing, :driver_name
     attr_accessor :position
 
-    def speed_up
+    def increase_speed
       @speed += 1 if @speed < MAX_SPEED
     end
 
-    def slow_down
+    def decrease_speed
       @speed -= 1 if @speed > MIN_SPEED
     end
 
@@ -31,6 +31,22 @@ module TrafficSim
       raise ArgumentError unless Map::DIRECTIONS.include?(direction)
 
       @facing = direction
+    end
+
+    def face_north
+      face(:north)
+    end
+
+    def face_south
+      face(:south)
+    end
+
+    def face_east
+      face(:east)
+    end
+
+    def face_west
+      face(:west)
     end
 
     def move

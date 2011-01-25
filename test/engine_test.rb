@@ -8,7 +8,7 @@ describe TrafficSim::Engine do
     def @forward_driver.step(map, driver_name)
       vehicle = map.vehicles[driver_name]
       return :increase_speed if vehicle.speed == 0
-      :launch
+      :move
     end
   end
 
