@@ -20,7 +20,7 @@ module TrafficSim
 
     def rows
       data
-    end 
+    end
 
     def columns
       data.transpose
@@ -42,7 +42,7 @@ module TrafficSim
         [row, col - distance]
       end
 
-      return nil if row < 0 || row >= rows.length 
+      return nil if row < 0 || row >= rows.length
       return nil if col < 0 || col >= columns.length
 
       dest_point
@@ -94,7 +94,7 @@ module TrafficSim
         end
       end
     end
-    
+
     def convert_symbol(symbol, position)
       case symbol
       when "#"
@@ -102,13 +102,14 @@ module TrafficSim
       when /[A-Z]/
         Dock.new(symbol.downcase)
       when /[a-z]/
-        vehicles[symbol] = Vehicle.new(symbol, position) 
+        vehicles[symbol] = Vehicle.new(symbol, self, position)
       when " "
         nil
-      else 
+      else
         raise
       end
     end
 
   end
 end
+

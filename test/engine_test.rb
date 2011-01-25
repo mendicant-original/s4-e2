@@ -22,7 +22,7 @@ describe TrafficSim::Engine do
     # In the first run, Sample driver will throttle.
     # In the second run, the Sample driver will try to move, and
     # should be stopped by DeathByLaser
-    assert_raises TrafficSim::Engine::DeathByLaser do
+    assert_raises TrafficSim::Vehicle::DeathByLaser do
       engine.run {}
     end
   end
