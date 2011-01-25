@@ -13,12 +13,15 @@ module TrafficSim
     VALID_COMMANDS    = [:increase_speed, :decrease_speed, :face_north,
       :face_south, :face_east, :face_west, :move]
 
-    def initialize(driver_name, map, position)
-      @driver_name = driver_name
-      @map         = map
-      @position    = position
-      @speed       = MIN_SPEED
-      @facing      = Map::DIRECTIONS.first
+    def initialize(params)
+      @map          = params.fetch(:map)
+      @position     = params.fetch(:position)
+      @driver_name  = params.fetch(:name)
+      # should we do this?
+      raise ArgumentError if (@map.nil? || @position.nil? || @driver_name.nil?)
+
+      @speed        = MIN_SPEED
+      @facing       = Map::DIRECTIONS.first
     end
 
     attr_reader :speed, :facing, :driver_name

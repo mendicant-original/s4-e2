@@ -102,7 +102,8 @@ module TrafficSim
       when /[A-Z]/
         Dock.new(symbol.downcase)
       when /[a-z]/
-        vehicles[symbol] = Vehicle.new(symbol, self, position)
+        vehicles[symbol] = Vehicle.new(:map => self, :position => position,
+          :name => symbol)
       when " "
         nil
       else
