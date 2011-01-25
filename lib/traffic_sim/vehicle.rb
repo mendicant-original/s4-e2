@@ -5,8 +5,13 @@ module TrafficSim
     DeathByLaser      = Class.new(StandardError)
     LostInSpace       = Class.new(StandardError)
 
+    InvalidCommand    = Class.new(StandardError)
+
     MAX_SPEED = 3
     MIN_SPEED = 0
+
+    VALID_COMMANDS    = [:increase_speed, :decrease_speed, :face_north,
+      :face_south, :face_east, :face_west, :move]
 
     def initialize(driver_name, map, position)
       @driver_name = driver_name
@@ -18,6 +23,11 @@ module TrafficSim
 
     attr_reader :speed, :facing, :driver_name
     attr_accessor :position
+
+    def command(instruction)
+      raise InvalidCommand unless VALID_COMMANDS.include?(instruction)
+      self.send(instruction)
+    end
 
     def increase_speed
       @speed += 1 if @speed < MAX_SPEED

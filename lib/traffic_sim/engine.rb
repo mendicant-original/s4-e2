@@ -20,7 +20,7 @@ module TrafficSim
         strategy    = vehicle_strategies[v.driver_name]
         instruction = strategy.step(map_copy, k)
 
-        v.send(instruction)
+        v.command(instruction)
       end
     end
   end
