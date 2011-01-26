@@ -2,11 +2,13 @@ module TrafficSim
   module Drivers
     class Wanderer
       def initialize
-        @map        = nil
-        @vehicle    = nil
-        @name       = nil
+        @map          = nil
+        @vehicle      = nil
+        @name         = nil
 
-        @in_danger  = false
+        @must_brake   = false
+
+        @action       = nil
       end
 
       attr_reader :name
@@ -18,7 +20,10 @@ module TrafficSim
         @vehicle    = map.vehicles[name]
 
         # compute next action
-        action = avoid_crash || dock_if_we_can || adjust_speed || turn_to_dock_direction || :move
+        @action = avoid_crash || dock_if_we_can || adjust_speed || turn_to_dock_direction || :move
+        puts "#{driver_name}: #{@action}"
+
+        @action
       end
 
       # proxy methods for vehicle to avoid vehicle.xxx everywhere
@@ -50,12 +55,12 @@ module TrafficSim
       end
 
       def avoid_crash
-        @in_danger = false
+        @must_brake = false
 
         where = @map.destination(:origin => position, :distance => speed,
           :direction => direction)
         unless clear_path?(position, where)
-          @in_danger = true
+          @must_brake = true
           return (emergency_turn || adjust_speed)
         end
 
@@ -75,7 +80,7 @@ module TrafficSim
       end
 
       def adjust_speed
-        return :decrease_speed if in_danger?
+        return :decrease_speed if must_brake?
         return :increase_speed if speed == TrafficSim::Vehicle::MIN_SPEED
 
         false
@@ -93,6 +98,7 @@ module TrafficSim
       end
 
       def turn_to_dock_direction
+        return false if @action.to_s.start_with?('face')
         target = direction_of(dock_position)
         where  = @map.destination(:origin => position, :distance => speed,
           :direction => target)
@@ -103,10 +109,10 @@ module TrafficSim
 
       protected
 
-      attr_reader :in_danger
+      attr_reader :must_brake
 
-      def in_danger?
-        in_danger
+      def must_brake?
+        must_brake
       end
 
       def find_own_dock
