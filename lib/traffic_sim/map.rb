@@ -26,10 +26,24 @@ module TrafficSim
       data.transpose
     end
 
+    # check if a given coord. is in range
+    def in_range?(point)
+      row, col = point
+
+      return false unless row
+      return false unless col
+      return false if row < 0 || row >= rows.length
+      return false if col < 0 || col >= columns.length
+
+      # should be good enough
+      true
+    end
+
     def destination(params)
-      row, col  = params[:origin]
-      distance  = params[:distance]
-      direction = params[:direction]
+      row, col  = params.fetch(:origin, [nil, nil])
+      raise ArgumentError, 'bad origin point' unless in_range?([row,col])
+      distance  = params.fetch(:distance, 1)
+      direction = params.fetch(:direction, DIRECTIONS.first)
 
       dest_point = case direction
       when :north
@@ -42,9 +56,7 @@ module TrafficSim
         [row, col - distance]
       end
 
-      return nil if row < 0 || row >= rows.length
-      return nil if col < 0 || col >= columns.length
-
+      return nil unless in_range?(dest_point)
       dest_point
     end
 
