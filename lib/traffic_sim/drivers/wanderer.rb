@@ -2,9 +2,11 @@ module TrafficSim
   module Drivers
     class Wanderer
       def initialize
-        @map      = nil
-        @vehicle  = nil
-        @name     = nil
+        @map        = nil
+        @vehicle    = nil
+        @name       = nil
+
+        @in_danger  = false
       end
 
       attr_reader :name
@@ -48,12 +50,12 @@ module TrafficSim
       end
 
       def avoid_crash
-        in_danger = false
+        @in_danger = false
 
         where = @map.destination(:origin => position, :distance => speed,
           :direction => direction)
         unless clear_path?(position, where)
-          in_danger = true
+          @in_danger = true
           return (emergency_turn || adjust_speed)
         end
 
@@ -101,7 +103,7 @@ module TrafficSim
 
       protected
 
-      attr_accessor :in_danger, :skip_turning
+      attr_reader :in_danger
 
       def in_danger?
         in_danger
