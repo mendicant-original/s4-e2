@@ -21,9 +21,6 @@ module TrafficSim
 
         # compute next action
         @action = avoid_crash || dock_if_we_can || adjust_speed || turn_to_dock_direction || :move
-        puts "#{driver_name}: #{@action}"
-
-        @action
       end
 
       # proxy methods for vehicle to avoid vehicle.xxx everywhere
@@ -73,7 +70,7 @@ module TrafficSim
             :direction => at)
           what  = @map[*where]
 
-          return (turn_to_dock_direction || :move) if is_my_dock?(what)
+          return (turn_to_dock_direction || adjust_speed || :move) if is_my_dock?(what)
         end
 
         false
@@ -98,7 +95,6 @@ module TrafficSim
       end
 
       def turn_to_dock_direction
-        return false if @action.to_s.start_with?('face')
         target = direction_of(dock_position)
         where  = @map.destination(:origin => position, :distance => speed,
           :direction => target)
