@@ -1,13 +1,9 @@
 module TrafficSim
   module Drivers
     class DummyForwarder < TrafficSim::Driver
-      def initialize(name, map)
-        super(name, map)
-        @movements = [:increase_speed, :move].cycle
-      end
-
       def step
-        @movements.next
+        return :increase_speed if vehicle.speed == 0
+        :move
       end
     end
   end
