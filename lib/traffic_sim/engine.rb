@@ -20,7 +20,7 @@ module TrafficSim
 
     def step
       @vehicle_strategies.each do |strategy|
-#        vehicle = map.vehicles[strategy.driver_name]
+        next unless strategy.vehicle
         instruction = strategy.step
         strategy.vehicle.command(instruction)
       end
