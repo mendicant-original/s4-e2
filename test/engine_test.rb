@@ -1,23 +1,11 @@
 require_relative "test_helper"
 
 describe TrafficSim::Engine do
-
-  before(:each) do
-    # an "inline" driver which only goes forward
-    @forward_driver = Object.new
-    def @forward_driver.step(map, driver_name)
-      vehicle = map.vehicles[driver_name]
-      return :increase_speed if vehicle.speed == 0
-      :move
-    end
-  end
-
   it "should kill vehicle by laser when it tries to go to another's dock" do
     map = TrafficSim::Map.new("#{TRAFFIC_SIM_BASEDIR}/data/maps/about_to_die.txt")
 
-    vehicle_strategies = { "a" => @forward_driver }
-
-    engine = TrafficSim::Engine.new(map, vehicle_strategies)
+    engine = TrafficSim::Engine.new(map)
+    engine.add_vehicle_strategy(TrafficSim::Drivers::DummyForwarder.new('a', map))
 
     # In the first run, Sample driver will throttle.
     # In the second run, the Sample driver will try to move, and
@@ -30,9 +18,9 @@ describe TrafficSim::Engine do
   it "should actually let vehicle dock when it tries entering its own" do
     map = TrafficSim::Map.new("#{TRAFFIC_SIM_BASEDIR}/data/maps/about_to_dock.txt")
 
-    vehicle_strategies = { "a" => @forward_driver }
+    engine = TrafficSim::Engine.new(map)
+    engine.add_vehicle_strategy(TrafficSim::Drivers::DummyForwarder.new('a', map))
 
-    engine = TrafficSim::Engine.new(map, vehicle_strategies)
     engine.step
     engine.step
     assert engine.map.vehicles.empty?

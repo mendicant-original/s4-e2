@@ -1,11 +1,15 @@
 module TrafficSim
   class Engine
-    def initialize(map, vehicle_strategies)
-      @vehicle_strategies = vehicle_strategies
+    def initialize(map, strategies=[])
       @map                = map
+      @vehicle_strategies = strategies
     end
 
-    attr_reader :vehicle_strategies, :map
+    attr_reader :map, :vehicle_strategies
+
+    def add_vehicle_strategy(strategy)
+      @vehicle_strategies.push(strategy)
+    end
 
     def run
       until map.vehicles.empty?
@@ -15,12 +19,10 @@ module TrafficSim
     end
 
     def step
-      map.vehicles.each do |k,v|
-        map_copy    = Marshal.load(Marshal.dump(map))
-        strategy    = vehicle_strategies[v.driver_name]
-        instruction = strategy.step(map_copy, k)
-
-        v.command(instruction)
+      @vehicle_strategies.each do |strategy|
+#        vehicle = map.vehicles[strategy.driver_name]
+        instruction = strategy.step
+        strategy.vehicle.command(instruction)
       end
     end
   end

@@ -1,22 +1,12 @@
 module TrafficSim
   module Drivers
-    class Wanderer
-      def initialize
-        @map          = nil
-        @vehicle      = nil
-        @name         = nil
-
-        @action       = nil
+    class Wanderer < TrafficSim::Driver
+      def initialize(driver_name, map)
+        super(driver_name, map)
+        @action = nil
       end
 
-      attr_reader :name
-
-      def step(map, driver_name)
-        # get data
-        @map        = map
-        @name       = driver_name
-        @vehicle    = map.vehicles[name]
-
+      def step
         # compute next action
         @action = avoid_crash || dock_if_we_can || adjust_speed || turn_to_dock_direction || :move
       end
@@ -109,11 +99,11 @@ module TrafficSim
       end
 
       def is_my_dock?(object)
-        object.kind_of?(Dock) && object.owned_by?(@name)
+        object.kind_of?(Dock) && object.owned_by?(@driver_name)
       end
 
       def is_my_vehicle?(object)
-        object.kind_of?(Vehicle) && object.driver_name == name
+        object.kind_of?(Vehicle) && object.driver_name == @driver_name
       end
 
       def obstacles_in_path(a,b)

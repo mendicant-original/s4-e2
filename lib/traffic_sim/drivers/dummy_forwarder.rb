@@ -1,6 +1,6 @@
 module TrafficSim
   module Drivers
-    class Sample < TrafficSim::Driver
+    class DummyForwarder < TrafficSim::Driver
       def initialize(name, map)
         super(name, map)
         @movements = [:increase_speed, :move].cycle

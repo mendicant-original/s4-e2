@@ -4,10 +4,10 @@ require_relative "../lib/traffic_sim"
 
 map = TrafficSim::Map.new(ARGV[0])
 
-engine = TrafficSim::Engine.new(map,
-  "a" => TrafficSim::Drivers::Sample.new,
-  "b" => TrafficSim::Drivers::Sample.new,
-  "c" => TrafficSim::Drivers::Sample.new)
+engine = TrafficSim::Engine.new(map)
+engine.add_vehicle_strategy(TrafficSim::Drivers::Wanderer.new('a', map))
+engine.add_vehicle_strategy(TrafficSim::Drivers::Wanderer.new('b', map))
+engine.add_vehicle_strategy(TrafficSim::Drivers::Wanderer.new('c', map))
 
 puts engine.map
 
