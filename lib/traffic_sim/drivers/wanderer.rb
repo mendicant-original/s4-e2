@@ -103,7 +103,7 @@ module TrafficSim
         false
       end
 
-      protected
+      private
 
       attr_reader :must_brake
 
