@@ -6,8 +6,6 @@ module TrafficSim
         @vehicle      = nil
         @name         = nil
 
-        @must_brake   = false
-
         @action       = nil
       end
 
@@ -52,13 +50,10 @@ module TrafficSim
       end
 
       def avoid_crash
-        @must_brake = false
-
         where = @map.destination(:origin => position, :distance => speed,
           :direction => direction)
         unless clear_path?(position, where)
-          @must_brake = true
-          return (emergency_turn || adjust_speed)
+          return (emergency_turn || adjust_speed(true))
         end
 
         false
@@ -76,8 +71,8 @@ module TrafficSim
         false
       end
 
-      def adjust_speed
-        return :decrease_speed if must_brake?
+      def adjust_speed(must_brake=false)
+        return :decrease_speed if must_brake
         return :increase_speed if speed == TrafficSim::Vehicle::MIN_SPEED
 
         false
@@ -104,12 +99,6 @@ module TrafficSim
       end
 
       private
-
-      attr_reader :must_brake
-
-      def must_brake?
-        must_brake
-      end
 
       def find_own_dock
         @map.rows.map.with_index do |row, y|
