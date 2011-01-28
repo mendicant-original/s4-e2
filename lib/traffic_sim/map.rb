@@ -20,7 +20,7 @@ module TrafficSim
 
     def rows
       data
-    end 
+    end
 
     def columns
       data.transpose
@@ -42,7 +42,7 @@ module TrafficSim
         [row, col - distance]
       end
 
-      return nil if row < 0 || row >= rows.length 
+      return nil if row < 0 || row >= rows.length
       return nil if col < 0 || col >= columns.length
 
       dest_point
@@ -62,6 +62,18 @@ module TrafficSim
       else
         raise ArgumentError
       end
+    end
+
+    def vehicle_for?(position, driver_name)
+      row, column = position
+      map_position = @data[row][column]
+      map_position.is_a?(Vehicle) && map_position.driver_name == driver_name
+    end
+
+    def dock_for?(position, driver_name)
+      row, column = position
+      map_position = @data[row][column]
+      map_position.is_a?(Dock) && map_position.owned_by?(driver_name)
     end
 
     def to_s
@@ -94,7 +106,7 @@ module TrafficSim
         end
       end
     end
-    
+
     def convert_symbol(symbol, position)
       case symbol
       when "#"
@@ -102,10 +114,10 @@ module TrafficSim
       when /[A-Z]/
         Dock.new(symbol.downcase)
       when /[a-z]/
-        vehicles[symbol] = Vehicle.new(symbol, position) 
+        vehicles[symbol] = Vehicle.new(symbol, position)
       when " "
         nil
-      else 
+      else
         raise
       end
     end

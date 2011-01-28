@@ -34,4 +34,19 @@ describe TrafficSim::Map do
     assert_equal "b", vehicle_b.driver_name
   end
 
+  it "should be able to find out who is the owner of the vehicle" do
+    map = TrafficSim::Map.new("#{TRAFFIC_SIM_BASEDIR}/data/maps/simple.txt")
+
+    assert map.vehicle_for?([11,6], 'a')
+    refute map.vehicle_for?([11,6], 'b')
+  end
+
+  it "should be able to find out who is the owner of the dock" do
+    map = TrafficSim::Map.new("#{TRAFFIC_SIM_BASEDIR}/data/maps/simple.txt")
+
+    assert map.dock_for?([4,13], 'a')
+    refute map.dock_for?([4,13], 'b')
+  end
+
+
 end
