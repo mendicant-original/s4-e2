@@ -27,7 +27,7 @@ module TrafficSim
     end
 
     # check if a given coord. is in range
-    def in_range?(point)
+    def valid_position?(point)
       row, col = point
 
       return false unless row
@@ -41,7 +41,7 @@ module TrafficSim
 
     def destination(params)
       row, col  = params.fetch(:origin, [nil, nil])
-      raise ArgumentError, 'bad origin point' unless in_range?([row,col])
+      raise ArgumentError, 'bad origin point' unless valid_position?([row,col])
       distance  = params.fetch(:distance, 1)
       direction = params.fetch(:direction, DIRECTIONS.first)
 
@@ -56,10 +56,10 @@ module TrafficSim
         [row, col - distance]
       end
 
-      return nil unless in_range?(dest_point)
+      return nil unless valid_position?(dest_point)
       dest_point
     end
-
+    
     def clear_path?(a,b)
       row_a, col_a = a
       row_b, col_b = b
