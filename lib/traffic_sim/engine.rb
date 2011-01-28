@@ -1,5 +1,7 @@
 module TrafficSim
   class Engine
+    StrategyAlreadyExists = Class.new(StandardError)
+    
     def initialize(map, strategies=[])
       @map                = map
       @vehicle_strategies = strategies
@@ -8,6 +10,8 @@ module TrafficSim
     attr_reader :map, :vehicle_strategies
 
     def add_vehicle_strategy(strategy)
+      raise StrategyAlreadyExists if @vehicle_strategies.any? { |s| 
+        s.driver_name == strategy.driver_name }
       @vehicle_strategies.push(strategy)
     end
 
