@@ -65,14 +65,12 @@ module TrafficSim
     end
 
     def vehicle_for?(position, driver_name)
-      row, column = position
-      map_position = @data[row][column]
+      map_position = self[*position]
       map_position.is_a?(Vehicle) && map_position.driver_name == driver_name
     end
 
     def dock_for?(position, driver_name)
-      row, column = position
-      map_position = @data[row][column]
+      map_position = self[*position]
       map_position.is_a?(Dock) && map_position.owned_by?(driver_name)
     end
 
