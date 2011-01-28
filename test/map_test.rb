@@ -48,5 +48,18 @@ describe TrafficSim::Map do
     refute map.dock_for?([4,13], 'b')
   end
 
+  it "should be able to calculate the surroundings of an element" do
+    map = TrafficSim::Map.new("#{TRAFFIC_SIM_BASEDIR}/data/maps/about_to_die.txt")
 
+    surroundings = map.surroundings([5, 13])
+
+    assert_nil                     map[*surroundings[0]]
+    assert_equal TrafficSim::Dock, map[*surroundings[1]].class
+    assert_nil                     map[*surroundings[2]]
+    assert_nil                     map[*surroundings[3]]
+    assert_nil                     map[*surroundings[4]]
+    assert_nil                     map[*surroundings[5]]
+    assert_equal TrafficSim::Dock, map[*surroundings[6]].class
+    assert_nil                     map[*surroundings[7]]
+  end
 end

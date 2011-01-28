@@ -76,6 +76,23 @@ module TrafficSim
       map_position.is_a?(Dock) && map_position.owned_by?(driver_name)
     end
 
+    def surroundings(position)
+      surroundings = []
+
+      (-1..1).each do |row_offset|
+        (-1..1).each do |column_offset|
+          map_i = position[0] + row_offset
+          map_j = position[1] + column_offset
+
+          unless row_offset == 0 && column_offset == 0 # do not include itself
+            surroundings << [map_i, map_j]
+          end
+        end
+      end
+
+      surroundings
+    end
+
     def to_s
       data.map do |row|
         output = row.map do |obj|
